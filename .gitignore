@@ -11,3 +11,10 @@ out/
 *.log
 .DS_Store
 Thumbs.db
+
+/test_files/*
+!/test_files/.gitkeep
+/patterns.db
+/my_doc.pdf
+/my_picture.jpg
+/File Type Analyzer (Java)/
