@@ -19,3 +19,5 @@ Thumbs.db
 /my_picture.jpg
 /File Type Analyzer (Java)/
 /src/
+
+/src/main/resources/patterns.db
