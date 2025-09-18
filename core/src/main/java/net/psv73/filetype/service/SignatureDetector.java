@@ -1,4 +1,4 @@
-package net.psv73.filetype;
+package net.psv73.filetype.service;
 
 import net.psv73.filetype.model.PatternDBRecord;
 
@@ -10,6 +10,8 @@ import java.util.*;
 public class SignatureDetector {
 
     private static final String PATTERN_DB = "patterns.db";
+    private static final int DEFAULT_READ_LIMIT = 560;
+
     private final List<PatternDBRecord> patterns;
 
     public SignatureDetector() throws IOException {
@@ -22,7 +24,7 @@ public class SignatureDetector {
     }
 
     public String detect(Path path) throws IOException {
-        byte[] head = readHead(path, 560);
+        byte[] head = readHead(path, DEFAULT_READ_LIMIT);
         return detect(head);
     }
 

@@ -1,37 +1,45 @@
 package net.psv73.filetype;
 
+import net.psv73.filetype.service.SignatureDetector;
+
 import java.nio.file.*;
+import java.util.stream.Stream;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        if (args.length < 1) {
-            System.out.println("Usage: run <filesFolder>");
-            return;
+        if (args.length == 0) {
+            System.err.println("Usage: app-cli <file-or-dir> [more...]");
+            System.exit(1);
         }
 
         Path dir = Paths.get(args[0]).toAbsolutePath().normalize();
 
-        if (!Files.isDirectory(dir)) {
-            System.out.println("Not a directory: " + dir);
-            return;
-        }
-
         SignatureDetector detector = new SignatureDetector();
 
-        try (var stream = Files.list(dir)) {
-            stream.filter(Files::isRegularFile)
-                    .filter(p -> !p.getFileName().toString().startsWith("."))
-                    .sorted()
-                    .forEach(p -> {
-                        try {
-                            String t = detector.detect(p);
-                            System.out.println(p.getFileName() + ": " + t);
-                        } catch (Exception e) {
-                            System.out.println(p.getFileName() + ": ERROR - " + e.getMessage());
-                        }
-                    });
+        for (String a : args) {
+            Path p = Paths.get(a);
+
+            if (Files.isRegularFile(p)) {
+                print(detector, p);
+            } else if (Files.isDirectory(p)) {
+                try (Stream<Path> s = Files.list(p)) {
+                    s.filter(Files::isRegularFile).forEach(f -> print(detector, f));
+                }
+            } else {
+                System.err.println("Not found: " + p);
+            }
+        }
+    }
+
+    private static void print(SignatureDetector detector, Path file) {
+        try {
+            byte[] bytes = Files.readAllBytes(file);
+            String type = detector.detect(file);
+            System.out.println(file.getFileName() + ": " + type);
+        } catch (Exception e) {
+            System.err.println("Error: " + file + " → " + e.getMessage());
         }
     }
 }

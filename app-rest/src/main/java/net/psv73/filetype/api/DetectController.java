@@ -1,6 +1,6 @@
 package net.psv73.filetype.api;
 
-import net.psv73.filetype.SignatureDetector;
+import net.psv73.filetype.service.SignatureDetector;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

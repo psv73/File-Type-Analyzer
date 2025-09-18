@@ -1,6 +1,6 @@
 package net.psv73.filetype.config;
 
-import net.psv73.filetype.SignatureDetector;
+import net.psv73.filetype.service.SignatureDetector;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
