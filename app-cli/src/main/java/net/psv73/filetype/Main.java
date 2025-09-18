@@ -1,22 +1,37 @@
 package net.psv73.filetype;
 
-import net.psv73.filetype.utils.FolderTool;
-import java.util.Locale;
+import java.nio.file.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-
-        Locale.setDefault(Locale.US);
+    public static void main(String[] args) throws Exception {
 
         if (args.length < 1) {
-            System.out.println("Usage: run <filesFolder> [patternDbPath]");
+            System.out.println("Usage: run <filesFolder>");
             return;
         }
 
-        String filesFolder = args[0];
-        String patternDB = args[1];
+        Path dir = Paths.get(args[0]).toAbsolutePath().normalize();
 
-        (new FolderTool()).searchInPatternDB(patternDB, filesFolder);
+        if (!Files.isDirectory(dir)) {
+            System.out.println("Not a directory: " + dir);
+            return;
+        }
+
+        SignatureDetector detector = new SignatureDetector();
+
+        try (var stream = Files.list(dir)) {
+            stream.filter(Files::isRegularFile)
+                    .filter(p -> !p.getFileName().toString().startsWith("."))
+                    .sorted()
+                    .forEach(p -> {
+                        try {
+                            String t = detector.detect(p);
+                            System.out.println(p.getFileName() + ": " + t);
+                        } catch (Exception e) {
+                            System.out.println(p.getFileName() + ": ERROR - " + e.getMessage());
+                        }
+                    });
+        }
     }
 }
