@@ -10,11 +10,17 @@ import java.util.*;
 public class SignatureDetector {
 
     private static final String PATTERN_DB = "patterns.db";
-    private static final int DEFAULT_READ_LIMIT = 560;
+    private final int readLimit;
 
     private final List<PatternDBRecord> patterns;
 
     public SignatureDetector() throws IOException {
+        this(560);
+    }
+
+    public SignatureDetector(int readLimit) throws IOException {
+        this.readLimit = readLimit;
+
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(PATTERN_DB)) {
             if (is == null) throw new FileNotFoundException(PATTERN_DB + " not found on classpath");
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
@@ -23,8 +29,12 @@ public class SignatureDetector {
         }
     }
 
+    public int getReadLimit() {
+        return readLimit;
+    }
+
     public String detect(Path path) throws IOException {
-        byte[] head = readHead(path, DEFAULT_READ_LIMIT);
+        byte[] head = readHead(path, this.readLimit);
         return detect(head);
     }
 
