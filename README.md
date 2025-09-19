@@ -1,4 +1,6 @@
 # File-Type-Analyzer (Monorepo)
+[![Build](https://github.com/psv73/File-Type-Analyzer/actions/workflows/ci.yml/badge.svg)](https://github.com/psv73/File-Type-Analyzer/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Multi-project: common logic in `core`, two applications: `app-cli` (CLI) and `app-rest` (REST).
 
