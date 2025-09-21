@@ -7,7 +7,7 @@ Multi-project: common logic in `core`, two apps: `app-cli` (CLI) and `app-rest` 
 ## Features
 - Binary signature detection (`SignatureAnalyzer`)
 - CLI tool & Spring Boot REST API
-- Multi-file upload (`/api/detect`)
+- Multi-file upload (`/api/analyze`)
 - Validation, global error handling, CI, tests
 
 ## Modules
