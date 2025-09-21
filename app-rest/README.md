@@ -1,31 +1,32 @@
-# App-REST
+# File-Type-Analyzer REST API
 
-Spring Boot REST API for file type detection. Supports multiple file uploads.
+Spring Boot REST service for file type detection using binary signatures.
 
-## Run
+## Endpoints
+- `POST /api/analyze` — analyze one or more uploaded files
+- `GET /api/health` — health check
+
+## Usage
+Start the server:
 ```bash
 ./gradlew :app-rest:bootRun
-# optional properties:
-./gradlew :app-rest:bootRun --args="--server.port=9090 --readLimit=560"
 ```
-
-## API
-`POST /api/analyze` — `multipart/form-data` with parameter `files` (can be repeated).
-
-```bash
-curl -F "files=@test_files/sample.pdf" -F "files=@test_files/my_jpeg.jpg" http://localhost:8080/api/analyze
+### Send request:
 ```
-Response:
-```json
-{ "sample.pdf": "PDF", "my_jpeg.jpg": "JPEG" }
+curl -F "files=@test_files/sample.pdf" \
+     -F "files=@test_files/my_jpeg.jpg" \
+     http://localhost:8080/api/analyze
 ```
-
-### Errors
-- `400` `{ "error": "File is empty" }`
-- `500` `{ "error": "Internal error" }`
-
+### Response:
+```
+[
+  { "file": "sample.pdf", "type": "PDF document" },
+  { "file": "my_jpeg.jpg", "type": "JPEG image" }
+]
+```
 ## Tests
-Integration tests using `MockMvc`:
-```bash
+```
 ./gradlew :app-rest:test
 ```
+## Requirements
+Java 21+, Gradle 8.x

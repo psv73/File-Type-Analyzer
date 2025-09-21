@@ -1,17 +1,18 @@
-# App-CLI
+# File-Type-Analyzer CLI
 
-CLI version of File-Type-Analyzer — quick file type detection from the console.
+Command-line application for file type detection using binary signatures.
 
-## Run
-```bash
+## Usage
+```
 ./gradlew :app-cli:run --args="path/to/files"
 ```
-
-## Example
-```bash
-./gradlew :app-cli:run --args="test_files"
+### Example
 ```
-Output: one line per file, format `filename: TYPE`.
-
-## Notes
-- Uses `core` and `patterns.db` from the classpath.
+./gradlew :app-cli:run --args="test_files/sample.pdf"
+```
+### Output
+```
+sample.pdf: PDF document
+```
+## Requirements
+Java 21+, Gradle 8.x
