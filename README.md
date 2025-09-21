@@ -33,7 +33,7 @@ Multi-project: common logic in `core`, two apps: `app-cli` (CLI) and `app-rest` 
 ```bash
 curl -F "files=@test_files/sample.pdf" \
      -F "files=@test_files/my_jpeg.jpg" \
-     http://localhost:8080/api/detect
+     http://localhost:8080/api/analyze
 ```
 ### Test
 ``` bash
