@@ -5,7 +5,7 @@
 Multi-project: common logic in `core`, two applications: `app-cli` (CLI) and `app-rest` (REST).
 
 ## Modules
-- `core` — loads `patterns.db`, signature detection logic (`SignatureDetector`).
+- `core` — loads `patterns.db`, signature detection logic (`SignatureAnalyzer`).
 - `app-cli` — command-line tool for local file analysis.
 - `app-rest` — Spring Boot REST API for batch file analysis.
 

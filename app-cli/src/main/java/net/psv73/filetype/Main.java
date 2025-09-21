@@ -1,6 +1,6 @@
 package net.psv73.filetype;
 
-import net.psv73.filetype.service.SignatureDetector;
+import net.psv73.filetype.service.SignatureAnalyzer;
 
 import java.nio.file.*;
 import java.util.stream.Stream;
@@ -16,16 +16,16 @@ public class Main {
 
         Path dir = Paths.get(args[0]).toAbsolutePath().normalize();
 
-        SignatureDetector detector = new SignatureDetector();
+        SignatureAnalyzer analyzer = new SignatureAnalyzer();
 
         for (String a : args) {
             Path p = Paths.get(a);
 
             if (Files.isRegularFile(p)) {
-                print(detector, p);
+                print(analyzer, p);
             } else if (Files.isDirectory(p)) {
                 try (Stream<Path> s = Files.list(p)) {
-                    s.filter(Files::isRegularFile).forEach(f -> print(detector, f));
+                    s.filter(Files::isRegularFile).forEach(f -> print(analyzer, f));
                 }
             } else {
                 System.err.println("Not found: " + p);
@@ -33,10 +33,10 @@ public class Main {
         }
     }
 
-    private static void print(SignatureDetector detector, Path file) {
+    private static void print(SignatureAnalyzer analyzer, Path file) {
         try {
             byte[] bytes = Files.readAllBytes(file);
-            String type = detector.detect(file);
+            String type = analyzer.analyze(file);
             System.out.println(file.getFileName() + ": " + type);
         } catch (Exception e) {
             System.err.println("Error: " + file + " → " + e.getMessage());

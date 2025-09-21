@@ -10,10 +10,10 @@ Spring Boot REST API for file type detection. Supports multiple file uploads.
 ```
 
 ## API
-`POST /api/detect` — `multipart/form-data` with parameter `files` (can be repeated).
+`POST /api/analyze` — `multipart/form-data` with parameter `files` (can be repeated).
 
 ```bash
-curl -F "files=@test_files/sample.pdf" -F "files=@test_files/my_jpeg.jpg" http://localhost:8080/api/detect
+curl -F "files=@test_files/sample.pdf" -F "files=@test_files/my_jpeg.jpg" http://localhost:8080/api/analyze
 ```
 Response:
 ```json

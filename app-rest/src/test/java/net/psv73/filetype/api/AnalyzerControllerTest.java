@@ -13,13 +13,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class DetectControllerTest {
+class AnalyzerControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Test
-    void detectsMultipleFiles() throws Exception {
+    void analyzeMultipleFiles() throws Exception {
         var pdf = new MockMultipartFile(
                 "files", "a.pdf", "application/pdf",
                 new byte[]{'%', 'P', 'D', 'F', '-'});
@@ -27,7 +27,7 @@ class DetectControllerTest {
                 "files", "b.jpg", "image/jpeg",
                 new byte[]{(byte)0xFF, (byte)0xD8, (byte)0xFF});
 
-        mvc.perform(multipart("/api/detect").file(pdf).file(jpg))
+        mvc.perform(multipart("/api/analyze").file(pdf).file(jpg))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.['a.pdf']").exists())
                 .andExpect(jsonPath("$.['b.jpg']").exists());
@@ -36,7 +36,7 @@ class DetectControllerTest {
     @Test
     void emptyFileReturns400() throws Exception {
         var empty = new MockMultipartFile("files","x.bin","application/octet-stream", new byte[0]);
-        mvc.perform(multipart("/api/detect").file(empty))
+        mvc.perform(multipart("/api/analyze").file(empty))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("File is empty"));
     }
