@@ -1,6 +1,6 @@
 package net.psv73.filetype.api;
 
-import net.psv73.filetype.service.SignatureDetector;
+import net.psv73.filetype.service.SignatureAnalyzer;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,18 +11,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class DetectController {
+public class AnalyzerController {
 
-    private final SignatureDetector detector;
+    private final SignatureAnalyzer analyzer;
     private final AnalyzerService service;
 
-    public DetectController(SignatureDetector detector, AnalyzerService service) {
-        this.detector = detector;
+    public AnalyzerController(SignatureAnalyzer analyzer, AnalyzerService service) {
+        this.analyzer = analyzer;
         this.service = service;
     }
 
-    @PostMapping(value = "/detect", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Map<String, String> detect(@RequestPart("files") MultipartFile[] files) throws IOException {
+    @PostMapping(value = "/analyze", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Map<String, String> analyzer(@RequestPart("files") MultipartFile[] files) throws IOException {
 
         Map<String,String> result = new LinkedHashMap<>();
 
@@ -35,6 +35,6 @@ public class DetectController {
 
     @GetMapping("/read-limit")
     public int getLimit() {
-        return detector.getReadLimit();
+        return analyzer.getReadLimit();
     }
 }

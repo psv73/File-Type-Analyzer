@@ -7,18 +7,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 
-public class SignatureDetector {
+public class SignatureAnalyzer {
 
     private static final String PATTERN_DB = "patterns.db";
     private final int readLimit;
 
     private final List<PatternDBRecord> patterns;
 
-    public SignatureDetector() throws IOException {
+    public SignatureAnalyzer() throws IOException {
         this(560);
     }
 
-    public SignatureDetector(int readLimit) throws IOException {
+    public SignatureAnalyzer(int readLimit) throws IOException {
         this.readLimit = readLimit;
 
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(PATTERN_DB)) {
@@ -33,12 +33,12 @@ public class SignatureDetector {
         return readLimit;
     }
 
-    public String detect(Path path) throws IOException {
+    public String analyze(Path path) throws IOException {
         byte[] head = readHead(path, this.readLimit);
-        return detect(head);
+        return analyze(head);
     }
 
-    public String detect(byte[] data) {
+    public String analyze(byte[] data) {
         for (PatternDBRecord r : patterns) {
             if (matchesAt(data, r.getSignature(), r.getOffset())) return r.getFileType();
         }
